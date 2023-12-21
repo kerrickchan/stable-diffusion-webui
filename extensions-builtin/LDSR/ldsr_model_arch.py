@@ -29,9 +29,9 @@ class LDSR:
             print(f"Loading model from {self.modelPath}")
             _, extension = os.path.splitext(self.modelPath)
             if extension.lower() == ".safetensors":
-                pl_sd = safetensors.torch.load_file(self.modelPath, device="cpu")
+                pl_sd = safetensors.torch.load_file(self.modelPath, device="mps")
             else:
-                pl_sd = torch.load(self.modelPath, map_location="cpu")
+                pl_sd = torch.load(self.modelPath, map_location="mps")
             sd = pl_sd["state_dict"] if "state_dict" in pl_sd else pl_sd
             config = OmegaConf.load(self.yamlPath)
             config.model.target = "ldm.models.diffusion.ddpm.LatentDiffusionV1"
